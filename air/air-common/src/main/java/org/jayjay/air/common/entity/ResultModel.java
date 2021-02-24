@@ -34,12 +34,7 @@ public class ResultModel<T>  implements Serializable {
     /**
      * 返回对象数据
      */
-    private T object;
-
-    /**
-     * 返回数据集合
-     */
-    private List<T> list = null;
+    private T data;
 
     /**
      * token 是否过期
@@ -75,20 +70,14 @@ public class ResultModel<T>  implements Serializable {
         this.msg = msg;
     }
 
-    public ResultModel(int code, String msg, List<T> list) {
-        super();
-        this.success = true;
-        this.code = code;
-        this.msg = msg;
-        this.list = list;
-    }
+
 
     public ResultModel(int code, String msg, T t) {
         super();
         this.success = true;
         this.code = code;
         this.msg = msg;
-        this.object = t;
+        this.data = t;
     }
 
     public boolean isSuccess() {
@@ -108,21 +97,14 @@ public class ResultModel<T>  implements Serializable {
         this.code = code;
     }
 
-    public T getObject() {
-        return object;
+    public T getData() {
+        return data;
     }
 
     public void setObject(T object) {
-        this.object = object;
+        this.data = object;
     }
 
-    public List<T> getList() {
-        return list;
-    }
-
-    public void setList(List<T> list) {
-        this.list = list;
-    }
 
     public String getMsg() {
         return msg;
@@ -142,7 +124,7 @@ public class ResultModel<T>  implements Serializable {
 
     @Override
     public String toString() {
-        return "JsonVo [success=" + success + ", code=" + code + ", msg=" + msg + ", obj=" + object + "]";
+        return "JsonVo [success=" + success + ", code=" + code + ", msg=" + msg + ", obj=" + data + "]";
     }
 
     public static ResultModel Success(){
@@ -213,24 +195,7 @@ public class ResultModel<T>  implements Serializable {
         ResultModel resultModel = new ResultModel();
         resultModel.code = code;
         resultModel.msg = msg;
-        resultModel.object = t;
-        return resultModel;
-    }
-
-    public static ResultModel ERROR(Integer code,String msg,List list){
-        ResultModel resultModel = new ResultModel();
-        resultModel.code = code;
-        resultModel.msg = msg;
-        resultModel.list = list;
-        return resultModel;
-    }
-
-    public static ResultModel ERROR(Integer code,String msg,List list,boolean expired){
-        ResultModel resultModel = new ResultModel();
-        resultModel.code = code;
-        resultModel.msg = msg;
-        resultModel.list = list;
-        resultModel.expired = expired;
+        resultModel.data = t;
         return resultModel;
     }
 
