@@ -1,7 +1,6 @@
 package org.jayjay.air.common.entity;
 
-
-import org.jayjay.air.common.constant.StatusCode;
+import org.jayjay.air.common.constant.ResultCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,7 +23,7 @@ public class ResultModel<T>  implements Serializable {
     /**
      * 状态码，默认为失败状态
      */
-    private Integer code = StatusCode.ERROR;
+    private Integer code = ResultCode.ERROR.getCode();
 
     /***
      * 操作信息
@@ -48,7 +47,7 @@ public class ResultModel<T>  implements Serializable {
      */
     public void OK() {
         this.success = true;
-        this.code = StatusCode.SUCCESS;
+        this.code = ResultCode.SUCCESS.getCode();
     }
 
     /**
@@ -56,7 +55,7 @@ public class ResultModel<T>  implements Serializable {
      */
     public void NO() {
         this.success = true;
-        this.code = StatusCode.ERROR;
+        this.code = ResultCode.ERROR.getCode();
     }
 
     public ResultModel() {
@@ -127,71 +126,71 @@ public class ResultModel<T>  implements Serializable {
         return "JsonVo [success=" + success + ", code=" + code + ", msg=" + msg + ", obj=" + data + "]";
     }
 
-    public static ResultModel Success(){
+    public static ResultModel success(){
         ResultModel resultModel = new ResultModel();
-        resultModel.code = StatusCode.ERROR;
-        resultModel.msg = StatusCode.SUCCESS_MSG;
+        resultModel.code = ResultCode.SUCCESS.getCode();
+        resultModel.msg = ResultCode.SUCCESS.getMsg();
         return resultModel;
     }
 
-    public static ResultModel Success(String msg){
+    public static ResultModel success(String msg){
         ResultModel resultModel = new ResultModel();
-        resultModel.code = StatusCode.SUCCESS;
+        resultModel.code = ResultCode.SUCCESS.getCode();
         resultModel.msg = msg;
         return resultModel;
     }
 
-    public static ResultModel Success(List list){
-        ResultModel resultModel = new ResultModel(StatusCode.SUCCESS,StatusCode.SUCCESS_MSG,list);
+    public static ResultModel success(List list){
+        ResultModel resultModel = new ResultModel(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMsg(),list);
         return resultModel;
     }
-    public static ResultModel Success(String msg,List list){
-        ResultModel resultModel = new ResultModel(StatusCode.SUCCESS,msg,list);
-        return resultModel;
-    }
-
-    public static ResultModel Success(String msg,Object obj){
-        ResultModel resultModel = new ResultModel(StatusCode.SUCCESS,msg,obj);
+    public static ResultModel success(String msg,List list){
+        ResultModel resultModel = new ResultModel(ResultCode.SUCCESS.getCode(),msg,list);
         return resultModel;
     }
 
-    public static ResultModel Success(Integer code,String msg,List list){
+    public static ResultModel success(String msg,Object obj){
+        ResultModel resultModel = new ResultModel(ResultCode.SUCCESS.getCode(),msg,obj);
+        return resultModel;
+    }
+
+    public static ResultModel success(Integer code,String msg,List list){
         ResultModel resultModel = new ResultModel(code,msg,list);
         return resultModel;
     }
 
-    public static ResultModel Success(Integer code,String msg,Object t){
+    public static ResultModel success(Integer code,String msg,Object t){
         ResultModel resultModel = new ResultModel(code,msg,t);
         return resultModel;
     }
 
-    public static ResultModel Success(Object t){
-        ResultModel resultModel = new ResultModel(StatusCode.SUCCESS,StatusCode.SUCCESS_MSG,t);
+    public static ResultModel success(Object t){
+        ResultModel resultModel = new ResultModel(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMsg(),t);
         return resultModel;
     }
 
-    public static ResultModel ERROR(){
+    public static ResultModel error(){
         ResultModel resultModel = new ResultModel();
-        resultModel.code = StatusCode.ERROR;
-        resultModel.msg = StatusCode.ERROR_MSG;
+        resultModel.code = ResultCode.ERROR.getCode();
+        resultModel.msg = ResultCode.ERROR.getMsg();
         return resultModel;
     }
 
-    public static ResultModel ERROR(String msg){
+    public static ResultModel error(String msg){
         ResultModel resultModel = new ResultModel();
-        resultModel.code = StatusCode.ERROR;
+        resultModel.code = ResultCode.ERROR.getCode();
         resultModel.msg = msg;
         return resultModel;
     }
 
-    public static ResultModel ERROR(Integer code,String msg){
+    public static ResultModel error(Integer code,String msg){
         ResultModel resultModel = new ResultModel();
         resultModel.code = code;
         resultModel.msg = msg;
         return resultModel;
     }
 
-    public static ResultModel ERROR(Integer code,String msg,Object t){
+    public static ResultModel error(Integer code,String msg,Object t){
         ResultModel resultModel = new ResultModel();
         resultModel.code = code;
         resultModel.msg = msg;

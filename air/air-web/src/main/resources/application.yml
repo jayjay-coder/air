@@ -14,7 +14,7 @@ spring:
 # JWT配置
 jwt:
   # 密匙Key
-  secret: JWTSecret,C3Stones
+  secret: JWTSecret,jayjay
   # HeaderKey
   tokenHeader: Authorization
   # Token前缀

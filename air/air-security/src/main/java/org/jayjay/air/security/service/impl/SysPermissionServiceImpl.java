@@ -1,9 +1,9 @@
 package org.jayjay.air.security.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.jayjay.air.security.entity.SysPermission;
 import org.jayjay.air.security.mapper.SysPermissionMapper;
-import org.jayjay.air.security.service.ISysPermissionService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.jayjay.air.security.service.SysPermissionService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2021-02-24
  */
 @Service
-public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements ISysPermissionService {
+public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
 
 }
