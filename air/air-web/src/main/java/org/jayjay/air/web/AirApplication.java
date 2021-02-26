@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan("org.jayjay.air")
-@MapperScan("org.jayjay.air.**.mapper")
+@MapperScan(basePackages = {"org.jayjay.air.**.mapper"})
 public class AirApplication {
 
     public static void main(String[] args) {

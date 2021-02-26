@@ -3,6 +3,7 @@ package org.jayjay.air.security.controller;
 import org.jayjay.air.common.entity.ResultModel;
 import org.jayjay.air.security.entity.SysUser;
 import org.jayjay.air.security.entity.SysUserRole;
+import org.jayjay.air.security.service.SysRoleService;
 import org.jayjay.air.security.service.SysUserRoleService;
 import org.jayjay.air.security.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class RegisterController {
 
     @Autowired
     private SysUserRoleService sysUserRoleService;
+
+    @Autowired
+    private SysRoleService sysRoleService;
 
     /**
      * 注册普通用户

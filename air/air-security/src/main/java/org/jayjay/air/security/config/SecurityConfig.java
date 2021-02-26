@@ -2,6 +2,7 @@ package org.jayjay.air.security.config;
 
 import org.jayjay.air.security.evaluator.UserPermissionEvaluator;
 import org.jayjay.air.security.filter.JwtAuthenticationFilter;
+import org.jayjay.air.security.filter.SysUsernamePasswordAuthenticationFilter;
 import org.jayjay.air.security.handler.*;
 import org.jayjay.air.security.provider.UserAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @Author: JayJay
@@ -109,9 +112,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .antMatchers(JwtConfig.antMatchers.split(",")).permitAll()// 获取白名单（不进行权限验证）
                 .anyRequest().authenticated() // 其他的需要登陆后才能访问
                 .and().httpBasic().authenticationEntryPoint(userNotLoginHandler) // 配置未登录处理类
-                .and().formLogin().loginProcessingUrl("/login/submit")// 配置登录URL
-                .successHandler(userLoginSuccessHandler) // 配置登录成功处理类
-                .failureHandler(userLoginFailureHandler) // 配置登录失败处理类
+//                .and().addFilterAt(new SysUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).formLogin()
+//                .and()
+//                .formLogin().loginProcessingUrl("/login/s")// 配置登录URL
+//                .successHandler(userLoginSuccessHandler) // 配置登录成功处理类
+//                .failureHandler(userLoginFailureHandler) // 配置登录失败处理类
                 .and().logout().logoutUrl("/logout/submit")// 配置登出地址
                 .logoutSuccessHandler(userLogoutSuccessHandler) // 配置用户登出处理类
                 .and().exceptionHandling().accessDeniedHandler(userAccessDeniedHandler)// 配置没有权限处理类
@@ -120,6 +125,17 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 禁用session（使用Token认证）
         http.headers().cacheControl(); // 禁用缓存
         http.addFilter(new JwtAuthenticationFilter(authenticationManager())); //// 添加JWT过滤器
+    }
+
+
+    @Bean
+    public SysUsernamePasswordAuthenticationFilter loginFilter() throws Exception {
+        SysUsernamePasswordAuthenticationFilter loginFilter = new SysUsernamePasswordAuthenticationFilter();
+        loginFilter.setAuthenticationSuccessHandler(userLoginSuccessHandler);
+        loginFilter.setAuthenticationFailureHandler(userLoginFailureHandler);
+        loginFilter.setAuthenticationManager(authenticationManagerBean());
+        loginFilter.setFilterProcessesUrl("/login/s");
+        return loginFilter;
     }
 
 }

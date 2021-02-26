@@ -17,7 +17,7 @@
         SELECT
             a.*
         FROM
-            sys_auth a
+            sys_permission a
                 LEFT JOIN sys_role_permission ra ON ra.permission_id = a.id
                 LEFT JOIN sys_user_role ur ON ur.role_id = ra.role_id
         WHERE
