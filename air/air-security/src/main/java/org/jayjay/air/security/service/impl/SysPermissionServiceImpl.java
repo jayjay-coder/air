@@ -6,6 +6,8 @@ import org.jayjay.air.security.mapper.SysPermissionMapper;
 import org.jayjay.air.security.service.SysPermissionService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -17,4 +19,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
 
+    /**
+     * 根据用户ID查询权限
+     *
+     * @param userId 用户ID
+     * @return
+     */
+    @Override
+    public List<SysPermission> findPermsByUserId(String userId) {
+        return this.baseMapper.findPermsByUserId(userId);
+    }
 }

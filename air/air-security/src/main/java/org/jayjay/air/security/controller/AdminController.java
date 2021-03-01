@@ -4,6 +4,8 @@ import org.jayjay.air.common.entity.ResultModel;
 import org.jayjay.air.security.entity.SysPermission;
 import org.jayjay.air.security.entity.SysRole;
 import org.jayjay.air.security.entity.SysUser;
+import org.jayjay.air.security.service.SysPermissionService;
+import org.jayjay.air.security.service.SysRoleService;
 import org.jayjay.air.security.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,13 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private SysUserService sysUserSerivce;
+
+
+    @Autowired
+    private SysPermissionService sysPermissionService;
+
+    @Autowired
+    private SysRoleService sysRoleService;
 
     /**
      * 查询用户信息
@@ -44,7 +53,7 @@ public class AdminController {
     @PreAuthorize(value = "hasRole('ADMIN') or hasPermission('/user/role', 'sys:role:info')")
     @RequestMapping(value = "/role")
     public ResultModel role(String id) {
-        List<SysRole> roleList = sysUserSerivce.findRoleByUserId(id);
+        List<SysRole> roleList = sysRoleService.findRoleByUserId(id);
         return ResultModel.success(roleList);
     }
 
@@ -56,7 +65,7 @@ public class AdminController {
     @PreAuthorize(value = "hasAnyRole('ADMIN', 'USER') and hasPermission('/user/auth', 'sys:auth:info')")
     @RequestMapping(value = "/auth")
     public ResultModel auth(String id) {
-        List<SysPermission> authList = sysUserSerivce.findAuthByUserId(id);
+        List<SysPermission> authList = sysPermissionService.findPermsByUserId(id);
         return ResultModel.success(authList);
     }
 

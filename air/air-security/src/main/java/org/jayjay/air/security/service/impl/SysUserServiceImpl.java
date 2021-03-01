@@ -35,26 +35,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 new QueryWrapper<SysUser>().lambda().eq(SysUser::getUserName, username).ne(SysUser::getStatus, "1"));
     }
 
-    /**
-     * 根据用户ID查询角色
-     *
-     * @param userId 用户ID
-     * @return
-     */
-    @Override
-    public List<SysRole> findRoleByUserId(String userId) {
-        return this.baseMapper.findRoleByUserId(userId);
-    }
 
-    /**
-     * 根据用户ID查询权限
-     *
-     * @param userId 用户ID
-     * @return
-     */
-    @Override
-    public List<SysPermission> findAuthByUserId(String userId) {
-        return this.baseMapper.findAuthByUserId(userId);
-    }
+
 
 }

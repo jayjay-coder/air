@@ -2,6 +2,7 @@ package org.jayjay.air.security.evaluator;
 
 import org.jayjay.air.security.config.SysUserDetails;
 import org.jayjay.air.security.entity.SysPermission;
+import org.jayjay.air.security.service.SysPermissionService;
 import org.jayjay.air.security.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
@@ -25,6 +26,10 @@ public class UserPermissionEvaluator implements PermissionEvaluator {
     @Autowired
     private SysUserService sysUserService;
 
+
+    @Autowired
+    private SysPermissionService sysPermissionService;
+
     /**
      * 判断是否拥有权限
      *
@@ -40,7 +45,7 @@ public class UserPermissionEvaluator implements PermissionEvaluator {
 
         Set<String> permissions = new HashSet<String>(); // 用户权限
 
-        List<SysPermission> authList = sysUserService.findAuthByUserId(sysUserDetails.getId());
+        List<SysPermission> authList = sysPermissionService.findPermsByUserId(sysUserDetails.getId());
         authList.forEach(auth -> {
             permissions.add(auth.getPermission());
         });

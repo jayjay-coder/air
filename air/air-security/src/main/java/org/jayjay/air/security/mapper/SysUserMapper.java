@@ -16,19 +16,7 @@ import java.util.List;
  * @since 2021-02-24
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
-    /**
-     * 根据用户ID查询角色
-     *
-     * @param userId 用户ID
-     * @return
-     */
-    List<SysRole> findRoleByUserId(String userId);
 
-    /**
-     * 根据用户ID查询权限
-     *
-     * @param userId 用户ID
-     * @return
-     */
-    List<SysPermission> findAuthByUserId(String userId);
+
+
 }

@@ -6,6 +6,8 @@ import org.jayjay.air.security.mapper.SysRoleMapper;
 import org.jayjay.air.security.service.SysRoleService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -16,5 +18,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
+
+
+    /**
+     * 根据用户ID查询角色
+     *
+     * @param userId 用户ID
+     * @return
+     */
+    @Override
+    public List<SysRole> findRoleByUserId(String userId) {
+        return this.baseMapper.findRoleByUserId(userId);
+    }
 
 }

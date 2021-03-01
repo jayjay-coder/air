@@ -3,6 +3,8 @@ package org.jayjay.air.security.mapper;
 import org.jayjay.air.security.entity.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -12,5 +14,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-02-24
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
-
+    /**
+     * 根据用户ID查询角色
+     *
+     * @param userId 用户ID
+     * @return
+     */
+    List<SysRole> findRoleByUserId(String userId);
 }

@@ -3,6 +3,8 @@ package org.jayjay.air.security.service.impl;
 import org.jayjay.air.security.config.SysUserDetails;
 import org.jayjay.air.security.entity.SysRole;
 import org.jayjay.air.security.entity.SysUser;
+import org.jayjay.air.security.service.SysPermissionService;
+import org.jayjay.air.security.service.SysRoleService;
 import org.jayjay.air.security.service.SysUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,16 @@ import java.util.Set;
  */
 @Service
 public class SysUserDetailsService implements UserDetailsService {
+
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private SysRoleService sysRoleService;
+
+    @Autowired
+    private SysPermissionService sysPermissionService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser sysUser = sysUserService.findUserByUserName(username);
@@ -36,7 +46,7 @@ public class SysUserDetailsService implements UserDetailsService {
 
             Set<GrantedAuthority> authorities = new HashSet<>(); // 角色集合
 
-            List<SysRole> roleList = sysUserService.findRoleByUserId(sysUserDetails.getId());
+            List<SysRole> roleList = sysRoleService.findRoleByUserId(sysUserDetails.getId());
             roleList.forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
             });

@@ -24,19 +24,6 @@ public interface SysUserService extends IService<SysUser> {
      */
     SysUser findUserByUserName(String username);
 
-    /**
-     * 根据用户ID查询角色
-     *
-     * @param userId 用户ID
-     * @return
-     */
-    List<SysRole> findRoleByUserId(String userId);
 
-    /**
-     * 根据用户ID查询权限
-     *
-     * @param userId 用户ID
-     * @return
-     */
-    List<SysPermission> findAuthByUserId(String userId);
+
 }
