@@ -1,8 +1,8 @@
 package org.jayjay.air.security.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.jayjay.air.security.entity.SysRoleMenu;
-import org.jayjay.air.security.mapper.SysRoleMenuMapper;
+import org.jayjay.air.common.entity.SysRoleMenu;
+import org.jayjay.air.common.mapper.SysRoleMenuMapper;
 import org.jayjay.air.security.service.SysRoleMenuService;
 import org.springframework.stereotype.Service;
 

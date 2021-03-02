@@ -1,8 +1,8 @@
 package org.jayjay.air.security.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.jayjay.air.security.entity.SysUserRole;
-import org.jayjay.air.security.mapper.SysUserRoleMapper;
+import org.jayjay.air.common.entity.SysUserRole;
+import org.jayjay.air.common.mapper.SysUserRoleMapper;
 import org.jayjay.air.security.service.SysUserRoleService;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +16,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {
+
 
 }

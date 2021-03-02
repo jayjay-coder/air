@@ -1,6 +1,6 @@
 package org.jayjay.air.security.service;
 
-import org.jayjay.air.security.entity.SysUserRole;
+import org.jayjay.air.common.entity.SysUserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -12,5 +12,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-02-24
  */
 public interface SysUserRoleService extends IService<SysUserRole> {
+
+
+
 
 }

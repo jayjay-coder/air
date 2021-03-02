@@ -1,11 +1,7 @@
 package org.jayjay.air.security.service;
 
-import org.jayjay.air.security.entity.SysPermission;
-import org.jayjay.air.security.entity.SysRole;
-import org.jayjay.air.security.entity.SysUser;
+import org.jayjay.air.common.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
 
 /**
  * <p>
@@ -23,6 +19,14 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     SysUser findUserByUserName(String username);
+
+    /**
+     * 注册
+     * @param username
+     * @param password
+     * @return
+     */
+    SysUser register(String username,String password);
 
 
 

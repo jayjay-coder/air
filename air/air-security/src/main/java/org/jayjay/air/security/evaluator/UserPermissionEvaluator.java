@@ -1,7 +1,7 @@
 package org.jayjay.air.security.evaluator;
 
-import org.jayjay.air.security.config.SysUserDetails;
-import org.jayjay.air.security.entity.SysPermission;
+import org.jayjay.air.common.config.SysUserDetails;
+import org.jayjay.air.common.entity.SysPermission;
 import org.jayjay.air.security.service.SysPermissionService;
 import org.jayjay.air.security.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;

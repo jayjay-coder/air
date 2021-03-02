@@ -1,9 +1,6 @@
-package org.jayjay.air.security.entity;
+package org.jayjay.air.common.entity;
 
 import java.time.LocalDateTime;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-
 import java.io.Serializable;
 
 import lombok.Data;
@@ -21,7 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysMenu implements Serializable {
+public class SysPermission implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,40 +28,24 @@ public class SysMenu implements Serializable {
     private String id;
 
     /**
-     * 菜单名称
+     * 权限名称
      */
-    private String menuName;
+    private String permissionName;
 
     /**
-     * 菜单url
+     * 描述
      */
-    private String menuUrl;
+    private String descripe;
 
     /**
-     * 父级
+     * 权限标识
      */
-    @TableField("parentId")
-    private String parentId;
+    private String permission;
 
     /**
-     * 图标class
+     * 菜单id
      */
-    private String menuIcon;
-
-    /**
-     * 菜单编码
-     */
-    private String menuCode;
-
-    /**
-     * 顺序
-     */
-    private Integer sortNum;
-
-    /**
-     * 类型，0菜单，1按钮
-     */
-    private Integer type;
+    private String menuId;
 
     /**
      * 创建人

@@ -1,4 +1,4 @@
-package org.jayjay.air.security.entity;
+package org.jayjay.air.common.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysAttachment implements Serializable {
+public class SysRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,44 +28,19 @@ public class SysAttachment implements Serializable {
     private String id;
 
     /**
-     * 模块
+     * 角色名称
      */
-    private String moudle;
+    private String roleName;
 
     /**
-     * 业务id
+     * 角色描述
      */
-    private String businessId;
+    private String descripe;
 
     /**
-     * 文件类型
+     * 角色标识
      */
-    private String fileType;
-
-    /**
-     * 文件名称
-     */
-    private String fileName;
-
-    /**
-     * 文件大小
-     */
-    private Long fileSize;
-
-    /**
-     * 原来文件名称
-     */
-    private String originName;
-
-    /**
-     * 文件后缀
-     */
-    private String fileSuffix;
-
-    /**
-     * 文件路径
-     */
-    private String url;
+    private String roleCode;
 
     /**
      * 创建人

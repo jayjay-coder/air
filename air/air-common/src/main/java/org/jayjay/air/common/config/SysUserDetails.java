@@ -1,8 +1,8 @@
-package org.jayjay.air.security.config;
+package org.jayjay.air.common.config;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.jayjay.air.security.entity.SysUser;
+import org.jayjay.air.common.entity.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

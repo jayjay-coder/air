@@ -1,6 +1,6 @@
 package org.jayjay.air.security.service;
 
-import org.jayjay.air.security.entity.SysRole;
+import org.jayjay.air.common.entity.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -22,5 +22,12 @@ public interface SysRoleService extends IService<SysRole> {
      * @return
      */
     List<SysRole> findRoleByUserId(String userId);
+
+    /**
+     * 根据角色code查询角色
+     * @param code
+     * @return
+     */
+    SysRole getSysRoleByCode(String code);
 
 }

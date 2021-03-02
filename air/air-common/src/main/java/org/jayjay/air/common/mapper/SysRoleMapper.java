@@ -1,6 +1,6 @@
-package org.jayjay.air.security.mapper;
+package org.jayjay.air.common.mapper;
 
-import org.jayjay.air.security.entity.SysRole;
+import org.jayjay.air.common.entity.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package org.jayjay.air.security.service.impl;
 
-import org.jayjay.air.security.entity.SysRolePermission;
-import org.jayjay.air.security.mapper.SysRolePermissionMapper;
+import org.jayjay.air.common.entity.SysRolePermission;
+import org.jayjay.air.common.mapper.SysRolePermissionMapper;
 import org.jayjay.air.security.service.SysRolePermissionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

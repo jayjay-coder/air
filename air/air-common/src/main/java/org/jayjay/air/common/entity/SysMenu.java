@@ -1,6 +1,9 @@
-package org.jayjay.air.security.entity;
+package org.jayjay.air.common.entity;
 
 import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
 
 import lombok.Data;
@@ -18,64 +21,50 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysUser implements Serializable {
+public class SysMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键id
+     * 主键
      */
     private String id;
 
     /**
-     * 用户名
+     * 菜单名称
      */
-    private String userName;
+    private String menuName;
 
     /**
-     * 密码
+     * 菜单url
      */
-    private String password;
+    private String menuUrl;
 
     /**
-     * 昵称
+     * 父级
      */
-    private String nickName;
+    @TableField("parentId")
+    private String parentId;
 
     /**
-     * 失败时间
+     * 图标class
      */
-    private LocalDateTime failTime;
+    private String menuIcon;
 
     /**
-     * 头像
+     * 菜单编码
      */
-    private String headThumb;
+    private String menuCode;
 
     /**
-     * 电话
+     * 顺序
      */
-    private String phone;
+    private Integer sortNum;
 
     /**
-     * 登录时间
+     * 类型，0菜单，1按钮
      */
-    private LocalDateTime loginTime;
-
-    /**
-     * 登录次数
-     */
-    private Integer loginNumber;
-
-    /**
-     * 状态
-     */
-    private Integer status;
-
-    /**
-     * 当前角色
-     */
-    private String currentRole;
+    private Integer type;
 
     /**
      * 创建人
@@ -96,7 +85,6 @@ public class SysUser implements Serializable {
      * 修改时间
      */
     private LocalDateTime updateTime;
-
 
 
 }

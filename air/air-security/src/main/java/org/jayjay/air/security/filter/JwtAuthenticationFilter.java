@@ -1,7 +1,7 @@
 package org.jayjay.air.security.filter;
 
 import org.jayjay.air.security.config.JwtConfig;
-import org.jayjay.air.security.config.SysUserDetails;
+import org.jayjay.air.common.config.SysUserDetails;
 import org.jayjay.air.security.util.JwtTokenUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

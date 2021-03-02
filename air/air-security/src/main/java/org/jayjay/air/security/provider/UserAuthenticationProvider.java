@@ -1,6 +1,6 @@
 package org.jayjay.air.security.provider;
 
-import org.jayjay.air.security.config.SysUserDetails;
+import org.jayjay.air.common.config.SysUserDetails;
 import org.jayjay.air.security.service.impl.SysUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

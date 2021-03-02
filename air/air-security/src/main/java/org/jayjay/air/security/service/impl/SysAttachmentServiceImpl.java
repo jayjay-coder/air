@@ -1,7 +1,7 @@
 package org.jayjay.air.security.service.impl;
 
-import org.jayjay.air.security.entity.SysAttachment;
-import org.jayjay.air.security.mapper.SysAttachmentMapper;
+import org.jayjay.air.common.entity.SysAttachment;
+import org.jayjay.air.common.mapper.SysAttachmentMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.jayjay.air.security.service.SysAttachmentService;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
 package org.jayjay.air.security.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.jayjay.air.security.entity.SysPermission;
-import org.jayjay.air.security.mapper.SysPermissionMapper;
+import org.jayjay.air.common.entity.SysPermission;
+import org.jayjay.air.common.mapper.SysPermissionMapper;
 import org.jayjay.air.security.service.SysPermissionService;
 import org.springframework.stereotype.Service;
 

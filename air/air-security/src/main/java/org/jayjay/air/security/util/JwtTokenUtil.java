@@ -8,7 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jayjay.air.security.config.JwtConfig;
-import org.jayjay.air.security.config.SysUserDetails;
+import org.jayjay.air.common.config.SysUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

@@ -1,8 +1,8 @@
 package org.jayjay.air.security.service.impl;
 
-import org.jayjay.air.security.config.SysUserDetails;
-import org.jayjay.air.security.entity.SysRole;
-import org.jayjay.air.security.entity.SysUser;
+import org.jayjay.air.common.config.SysUserDetails;
+import org.jayjay.air.common.entity.SysRole;
+import org.jayjay.air.common.entity.SysUser;
 import org.jayjay.air.security.service.SysPermissionService;
 import org.jayjay.air.security.service.SysRoleService;
 import org.jayjay.air.security.service.SysUserService;

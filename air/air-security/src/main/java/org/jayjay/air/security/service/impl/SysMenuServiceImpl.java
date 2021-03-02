@@ -1,7 +1,7 @@
 package org.jayjay.air.security.service.impl;
 
-import org.jayjay.air.security.entity.SysMenu;
-import org.jayjay.air.security.mapper.SysMenuMapper;
+import org.jayjay.air.common.entity.SysMenu;
+import org.jayjay.air.common.mapper.SysMenuMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.jayjay.air.security.service.SysMenuService;
 import org.springframework.stereotype.Service;

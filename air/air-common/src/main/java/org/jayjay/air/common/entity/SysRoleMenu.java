@@ -1,4 +1,4 @@
-package org.jayjay.air.security.entity;
+package org.jayjay.air.common.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysUserRole implements Serializable {
+public class SysRoleMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,14 +28,14 @@ public class SysUserRole implements Serializable {
     private String id;
 
     /**
-     * 用户id
-     */
-    private String userId;
-
-    /**
      * 角色id
      */
     private String roleId;
+
+    /**
+     * 菜单id
+     */
+    private String menuId;
 
     /**
      * 创建人

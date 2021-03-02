@@ -1,6 +1,6 @@
 package org.jayjay.air.security.service;
 
-import org.jayjay.air.security.entity.SysAttachment;
+import org.jayjay.air.common.entity.SysAttachment;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

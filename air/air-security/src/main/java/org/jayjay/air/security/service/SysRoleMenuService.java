@@ -1,6 +1,6 @@
 package org.jayjay.air.security.service;
 
-import org.jayjay.air.security.entity.SysRoleMenu;
+import org.jayjay.air.common.entity.SysRoleMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

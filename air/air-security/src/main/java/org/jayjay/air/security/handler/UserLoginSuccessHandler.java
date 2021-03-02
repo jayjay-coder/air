@@ -1,19 +1,17 @@
 package org.jayjay.air.security.handler;
 
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.jayjay.air.common.constant.ResultCode;
 import org.jayjay.air.common.entity.ResultModel;
 import org.jayjay.air.common.util.ResponseUtils;
 import org.jayjay.air.security.util.JwtTokenUtil;
-import org.jayjay.air.security.config.SysUserDetails;
+import org.jayjay.air.common.config.SysUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 

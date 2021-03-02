@@ -1,6 +1,6 @@
 package org.jayjay.air.security.service;
 
-import org.jayjay.air.security.entity.SysPermission;
+import org.jayjay.air.common.entity.SysPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
