@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -85,6 +86,12 @@ public class SysMenu implements Serializable {
      * 修改时间
      */
     private LocalDateTime updateTime;
+
+
+    /**
+     * 子菜单
+     */
+    private List<SysMenu> childMenus;
 
 
 }

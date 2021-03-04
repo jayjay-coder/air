@@ -108,7 +108,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests() // 权限配置
+        http.anonymous().principal("Guest")
+                .and().authorizeRequests() // 权限配置
                 .antMatchers(JwtConfig.antMatchers.split(",")).permitAll()// 获取白名单（不进行权限验证）
                 .anyRequest().authenticated() // 其他的需要登陆后才能访问
                 .and().httpBasic().authenticationEntryPoint(userNotLoginHandler) // 配置未登录处理类
@@ -117,7 +118,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 //                .formLogin().loginProcessingUrl("/login/s")// 配置登录URL
 //                .successHandler(userLoginSuccessHandler) // 配置登录成功处理类
 //                .failureHandler(userLoginFailureHandler) // 配置登录失败处理类
-                .and().logout().logoutUrl("/logout/submit")// 配置登出地址
+                .and().logout().logoutUrl("/logout")// 配置登出地址
                 .logoutSuccessHandler(userLogoutSuccessHandler) // 配置用户登出处理类
                 .and().exceptionHandling().accessDeniedHandler(userAccessDeniedHandler)// 配置没有权限处理类
                 .and().cors()// 开启跨域
@@ -134,7 +135,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         loginFilter.setAuthenticationSuccessHandler(userLoginSuccessHandler);
         loginFilter.setAuthenticationFailureHandler(userLoginFailureHandler);
         loginFilter.setAuthenticationManager(authenticationManagerBean());
-        loginFilter.setFilterProcessesUrl("/login/s");
+        loginFilter.setFilterProcessesUrl("/login");
         return loginFilter;
     }
 

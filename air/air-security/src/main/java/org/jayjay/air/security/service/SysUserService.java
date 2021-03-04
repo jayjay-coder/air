@@ -1,5 +1,6 @@
 package org.jayjay.air.security.service;
 
+import org.jayjay.air.common.dto.UserDto;
 import org.jayjay.air.common.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -28,6 +29,13 @@ public interface SysUserService extends IService<SysUser> {
      */
     SysUser register(String username,String password);
 
+
+    /**
+     * 注册
+     * @param sysUser
+     * @return
+     */
+    UserDto register(SysUser sysUser);
 
 
 }

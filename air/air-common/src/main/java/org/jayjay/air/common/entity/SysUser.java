@@ -70,7 +70,7 @@ public class SysUser implements Serializable {
     /**
      * 状态
      */
-    private Integer status;
+    private Integer status = 1;
 
     /**
      * 当前角色

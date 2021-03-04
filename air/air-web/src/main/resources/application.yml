@@ -22,7 +22,7 @@ jwt:
   # 过期时间，单位秒
   expiration: 86400
   # 配置白名单（不需要认证）
-  antMatchers: /login/**,/register/**,/static/**
+  antMatchers: /**/login/**,/**/register/**,/static/**
 
 # Mybatis-plus配置
 mybatis-plus:
@@ -33,3 +33,14 @@ mybatis-plus:
   configuration:
     # 打印sql
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+logging:
+  file:
+    path: /data/logs/air/air_log_error.log
+  level:
+    root: info
+
+upload:
+  file:
+    path: D:/jayjay/air/

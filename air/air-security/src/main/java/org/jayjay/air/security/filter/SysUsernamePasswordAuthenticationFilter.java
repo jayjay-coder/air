@@ -21,8 +21,11 @@ import java.util.Map;
  * @Description: 自定义登录逻辑
  */
 public class SysUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        setUsernameParameter("userName");
+        setPasswordParameter("password");
         if (!request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException(
                     "Authentication method not supported: " + request.getMethod());
