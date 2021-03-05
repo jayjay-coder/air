@@ -46,6 +46,11 @@ public class SysUserDetails extends SysUser implements UserDetails, Serializable
     private boolean isEnabled = true;
 
     /**
+     * 客户请求Ip
+     */
+    private String ip;
+
+    /**
      * 获得用户权限
      */
     @Override

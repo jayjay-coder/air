@@ -1,17 +1,14 @@
 package org.jayjay.air.security.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.jayjay.air.common.config.SysUserDetails;
 import org.jayjay.air.common.entity.SysMenu;
 import org.jayjay.air.common.mapper.SysMenuMapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.jayjay.air.common.util.CommonUtils;
 import org.jayjay.air.security.service.SysMenuService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.testng.annotations.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
