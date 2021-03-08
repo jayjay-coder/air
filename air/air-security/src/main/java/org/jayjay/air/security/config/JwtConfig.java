@@ -42,7 +42,7 @@ public class JwtConfig {
     /**
      * 配置白名单
      */
-    public static String antMatchers;
+    public static String whiteList;
 
     /**
      * 将过期时间单位换算成毫秒
@@ -74,7 +74,8 @@ public class JwtConfig {
         this.tokenPrefix = tokenPrefix + " ";
     }
 
-    public void setAntMatchers(String antMatchers) {
-        this.antMatchers = antMatchers;
+
+    public void setWhiteList(String whiteList) {
+        this.whiteList = whiteList;
     }
 }

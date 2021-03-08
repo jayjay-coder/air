@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jayjay.air.common.config.SysUserDetails;
 import org.jayjay.air.common.entity.ResultModel;
 import org.jayjay.air.common.util.AccessAddressUtils;
+import org.jayjay.air.common.util.CommonUtils;
 import org.jayjay.air.common.util.ResponseUtils;
 import org.jayjay.air.security.config.JwtConfig;
 import org.jayjay.air.security.util.JwtTokenUtils;
@@ -18,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @Author: JayJay
@@ -50,8 +52,9 @@ public class JwtAuthenticationFilter  extends BasicAuthenticationFilter {
 //        filterChain.doFilter(request, response);
         // 取出Token
         String token = request.getHeader(JwtConfig.tokenHeader);
+        String requestURL = request.getServletPath();
 
-        if (token != null && token.startsWith(JwtConfig.tokenPrefix)) {
+        if (token != null && token.startsWith(JwtConfig.tokenPrefix) && !isWhiteList(requestURL)) {
             // 是否在黑名单中
             if (JwtTokenUtils.isBlackList(token)) {
                 ResponseUtils.responseJson(response, ResultModel.error(505, "Token已失效", "Token已进入黑名单"));
@@ -115,6 +118,18 @@ public class JwtAuthenticationFilter  extends BasicAuthenticationFilter {
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * 是否白名单
+     * @param url
+     * @return
+     */
+    private boolean isWhiteList(String url){
+        if(StringUtils.isBlank(JwtConfig.whiteList)){
+            return false;
+        }
+        return Arrays.stream(JwtConfig.whiteList.split(",")).anyMatch(item-> CommonUtils.match(item,url));
     }
 
 }

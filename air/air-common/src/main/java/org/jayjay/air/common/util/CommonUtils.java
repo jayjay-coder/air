@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jayjay.air.common.config.SysUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
@@ -66,6 +68,30 @@ public class CommonUtils {
         }
         sysUserDetails = (SysUserDetails) authenticated.getPrincipal();
         return sysUserDetails;
+    }
+
+
+    /**
+     * URl匹配，可模糊匹配
+     *
+     * @param patternUrl
+     * @param requestUrl
+     * @return
+     */
+    public static boolean match(String patternUrl, String requestUrl) {
+        if (StringUtils.isEmpty(patternUrl) || StringUtils.isEmpty(requestUrl)) {
+            return false;
+        }
+        PathMatcher matcher = new AntPathMatcher();
+        return matcher.match(patternUrl, requestUrl);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(match("/**/login/**","/login"));
+        System.out.println(match("/**/login","/login"));
+        System.out.println(match("/login/**","/user/login"));
+        System.out.println(match("**/user/login","/user/login"));
+        System.out.println(match("/user/login/**","/user/login"));
     }
 
 }

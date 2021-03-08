@@ -29,7 +29,7 @@ jwt:
   # 刷新时间，单位天
   refreshTime: 7
   # 配置白名单（不需要认证）
-  antMatchers: /**/login/**,/**/register/**,/static/**
+  whiteList: /**/login/**,/**/register/**,/static/**
 
 # Mybatis-plus配置
 mybatis-plus:
@@ -43,8 +43,11 @@ mybatis-plus:
 
 
 logging:
+  # 配置输出额日志文件名,可以带路径
+  #  file: out.log
+  # 配置日志存放路径,日志文件名为：air_log.log
   file:
-    path: /data/logs/air/air_log_error.log
+    path: /logs/air/air_log.log
   level:
     root: info
 

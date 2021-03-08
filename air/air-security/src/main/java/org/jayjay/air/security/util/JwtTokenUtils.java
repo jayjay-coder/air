@@ -127,6 +127,21 @@ public class JwtTokenUtils {
         return sysUserDetails;
     }
 
+
+    /**
+     * 解析出tokenKey
+     * @param token
+     * @return
+     */
+    public static String getTokenKey(String token){
+        SysUserDetails sysUserDetails = parseAccessToken(token);
+        if(sysUserDetails == null){
+            return null;
+        }
+        String tokenKey = sysUserDetails.getUsername()+sysUserDetails.getIp();
+        return tokenKey;
+    }
+
     /**
      * 保存Token信息到Redis中
      *
@@ -141,11 +156,13 @@ public class JwtTokenUtils {
 
             Integer refreshTime = JwtConfig.refreshTime;
             LocalDateTime localDateTime = LocalDateTime.now();
-            RedisUtils.hset(token, "username", username, refreshTime);
-            RedisUtils.hset(token, "ip", ip, refreshTime);
-            RedisUtils.hset(token, "refreshTime",
+            String tokenKey = username + ip;
+            RedisUtils.hset(tokenKey, "username", username, refreshTime);
+            RedisUtils.hset(tokenKey, "token", token, refreshTime);
+            RedisUtils.hset(tokenKey, "ip", ip, refreshTime);
+            RedisUtils.hset(tokenKey, "refreshTime",
                     df.format(localDateTime.plus(JwtConfig.refreshTime, ChronoUnit.MILLIS)), refreshTime);
-            RedisUtils.hset(token, "expiration", df.format(localDateTime.plus(JwtConfig.expiration, ChronoUnit.MILLIS)),
+            RedisUtils.hset(tokenKey, "expiration", df.format(localDateTime.plus(JwtConfig.expiration, ChronoUnit.MILLIS)),
                     refreshTime);
         }
     }
@@ -158,8 +175,9 @@ public class JwtTokenUtils {
     public static void addBlackList(String token) {
         if (StringUtils.isNotEmpty(token)) {
             // 去除JWT前缀
-            token = token.substring(JwtConfig.tokenPrefix.length());
-            RedisUtils.hset("blackList", token, df.format(LocalDateTime.now()));
+//            token = token.substring(JwtConfig.tokenPrefix.length());
+            String tokenKey = getTokenKey(token);
+            RedisUtils.hset("blackList", tokenKey, df.format(LocalDateTime.now()));
         }
     }
 
@@ -171,8 +189,9 @@ public class JwtTokenUtils {
     public static void deleteRedisToken(String token) {
         if (StringUtils.isNotEmpty(token)) {
             // 去除JWT前缀
-            token = token.substring(JwtConfig.tokenPrefix.length());
-            RedisUtils.deleteKey(token);
+//            token = token.substring(JwtConfig.tokenPrefix.length());
+            String tokenKey = getTokenKey(token);
+            RedisUtils.deleteKey(tokenKey);
         }
     }
 
@@ -184,8 +203,9 @@ public class JwtTokenUtils {
     public static boolean isBlackList(String token) {
         if (StringUtils.isNotEmpty(token)) {
             // 去除JWT前缀
-            token = token.substring(JwtConfig.tokenPrefix.length());
-            return RedisUtils.hasKey("blackList", token);
+//            token = token.substring(JwtConfig.tokenPrefix.length());
+            String tokenKey = getTokenKey(token);
+            return RedisUtils.hasKey("blackList", tokenKey);
         }
         return false;
     }
@@ -229,8 +249,9 @@ public class JwtTokenUtils {
     public static boolean hasToken(String token) {
         if (StringUtils.isNotEmpty(token)) {
             // 去除JWT前缀
-            token = token.substring(JwtConfig.tokenPrefix.length());
-            return RedisUtils.hasKey(token);
+//            token = token.substring(JwtConfig.tokenPrefix.length());
+            String tokenKey = getTokenKey(token);
+            return RedisUtils.hasKey(tokenKey);
         }
         return false;
     }
@@ -244,8 +265,9 @@ public class JwtTokenUtils {
     public static String getExpirationByToken(String token) {
         if (StringUtils.isNotEmpty(token)) {
             // 去除JWT前缀
-            token = token.substring(JwtConfig.tokenPrefix.length());
-            return RedisUtils.hget(token, "expiration").toString();
+//            token = token.substring(JwtConfig.tokenPrefix.length());
+            String tokenKey = getTokenKey(token);
+            return RedisUtils.hget(tokenKey, "expiration").toString();
         }
         return null;
     }
@@ -259,8 +281,9 @@ public class JwtTokenUtils {
     public static String getRefreshTimeByToken(String token) {
         if (StringUtils.isNotEmpty(token)) {
             // 去除JWT前缀
-            token = token.substring(JwtConfig.tokenPrefix.length());
-            return RedisUtils.hget(token, "refreshTime").toString();
+//            token = token.substring(JwtConfig.tokenPrefix.length());
+            String tokenKey = getTokenKey(token);
+            return RedisUtils.hget(tokenKey, "refreshTime").toString();
         }
         return null;
     }
@@ -274,8 +297,9 @@ public class JwtTokenUtils {
     public static String getUserNameByToken(String token) {
         if (StringUtils.isNotEmpty(token)) {
             // 去除JWT前缀
-            token = token.substring(JwtConfig.tokenPrefix.length());
-            return RedisUtils.hget(token, "username").toString();
+//            token = token.substring(JwtConfig.tokenPrefix.length());
+            String tokenKey = getTokenKey(token);
+            return RedisUtils.hget(tokenKey, "username").toString();
         }
         return null;
     }
@@ -289,8 +313,9 @@ public class JwtTokenUtils {
     public static String getIpByToken(String token) {
         if (StringUtils.isNotEmpty(token)) {
             // 去除JWT前缀
-            token = token.substring(JwtConfig.tokenPrefix.length());
-            return RedisUtils.hget(token, "ip").toString();
+//            token = token.substring(JwtConfig.tokenPrefix.length());
+            String tokenKey = getTokenKey(token);
+            return RedisUtils.hget(tokenKey, "ip").toString();
         }
         return null;
     }
