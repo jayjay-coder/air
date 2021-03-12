@@ -29,9 +29,12 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
                                 Authentication authentication) {
         // 添加到黑名单
         String token = request.getHeader(JwtConfig.tokenHeader);
-        JwtTokenUtils.addBlackList(token);
+        String accessTokenKey = JwtTokenUtils.getAccessTokenKey(token);
+        String refreshTokenKey = JwtTokenUtils.getRefreshTokenKey(token);
+        JwtTokenUtils.deleteRedisToken(accessTokenKey);
+        JwtTokenUtils.deleteRedisToken(refreshTokenKey);
 
-        log.info("用户{}登出成功，Token信息已保存到Redis的黑名单中", JwtTokenUtils.getUserNameByToken(token));
+        log.info("用户{}登出成功", JwtTokenUtils.getUserNameByToken(token));
 
         SecurityContextHolder.clearContext();
         ResponseUtils.responseJson(response, ResultModel.success(ResultCode.SUCCESS.getCode(), "登出成功", null));

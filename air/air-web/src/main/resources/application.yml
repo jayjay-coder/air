@@ -14,7 +14,7 @@ spring:
     host: 127.0.0.1
     port: 6379
     password:
-    database: 3
+    database: 2
 
 # JWT配置
 jwt:
@@ -24,10 +24,14 @@ jwt:
   tokenHeader: Authorization
   # Token前缀
   tokenPrefix: Bearer
+  #refreshToken reids前缀
+  accessTokenPrefix: 'access_token:'
   # 过期时间，单位秒
   expiration: 86400
+  #refreshToken reids前缀
+  refreshTokenPrefix: 'refresh_token:'
   # 刷新时间，单位天
-  refreshTime: 7
+  refreshTime: 604800
   # 配置白名单（不需要认证）
   whiteList: /**/login/**,/**/register/**,/static/**
 

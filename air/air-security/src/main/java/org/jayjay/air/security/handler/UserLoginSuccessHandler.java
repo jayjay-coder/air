@@ -4,8 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.jayjay.air.common.constant.ResultCode;
 import org.jayjay.air.common.entity.ResultModel;
 import org.jayjay.air.common.util.AccessAddressUtils;
+import org.jayjay.air.common.util.RedisUtils;
 import org.jayjay.air.common.util.ResponseUtils;
 import org.jayjay.air.common.config.SysUserDetails;
+import org.jayjay.air.security.config.JwtConfig;
 import org.jayjay.air.security.util.JwtTokenUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -35,13 +37,16 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         String ip = AccessAddressUtils.getIpAddress(request);
         sysUserDetails.setIp(ip);
         String token = JwtTokenUtils.createAccessToken(sysUserDetails);
-
+        String refreshToken = JwtTokenUtils.createRefreshToken(sysUserDetails);
+//        RedisUtils.hset("access:token:jayjay:127.0.0.1","11","22");
         // 保存Token信息到Redis中
-        JwtTokenUtils.setTokenInfo(token, sysUserDetails.getUsername(), ip);
+        JwtTokenUtils.setAccessTokenInfo(token, sysUserDetails.getUsername(), ip);
+        JwtTokenUtils.setRefreshTokenInfo(refreshToken, sysUserDetails.getUsername(), ip);
 
         log.info("用户{}登录成功，Token信息已保存到Redis", sysUserDetails.getUsername());
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
+        tokenMap.put("refreshToken", refreshToken);
         ResponseUtils.responseJson(response, ResultModel.success(ResultCode.SUCCESS.getCode(), "登录成功", tokenMap));
     }
 }

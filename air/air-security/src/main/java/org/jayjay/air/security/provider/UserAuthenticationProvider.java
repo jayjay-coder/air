@@ -42,7 +42,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("用户名或密码错误");
         }
 
-        if (sysUserDetails.getStatus().equals("2")) {
+        if (sysUserDetails.getStatus().equals(2)) {
             throw new LockedException("用户已禁用");
         }
 

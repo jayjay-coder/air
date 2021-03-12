@@ -30,14 +30,24 @@ public class JwtConfig {
     public static String tokenPrefix;
 
     /**
+     * redis token前缀
+     */
+    public static String accessTokenPrefix;
+
+    /**
      * 过期时间
      */
-    public static Integer expiration;
+    public static Long expiration;
+
+    /**
+     * redis refreshToken前缀
+     */
+    public static String refreshTokenPrefix;
 
     /**
      * 有效时间
      */
-    public static Integer refreshTime;
+    public static Long refreshTime;
 
     /**
      * 配置白名单
@@ -49,7 +59,7 @@ public class JwtConfig {
      *
      * @param expiration 过期时间，单位秒
      */
-    public void setExpiration(Integer expiration) {
+    public void setExpiration(Long expiration) {
         this.expiration = expiration * 1000;
     }
 
@@ -58,7 +68,7 @@ public class JwtConfig {
      *
      * @param refreshTime 有效时间，单位秒
      */
-    public void setRefreshTime(Integer refreshTime) {
+    public void setRefreshTime(Long refreshTime) {
         this.refreshTime = refreshTime * 24 * 60 * 60 * 1000;
     }
 
@@ -77,5 +87,13 @@ public class JwtConfig {
 
     public void setWhiteList(String whiteList) {
         this.whiteList = whiteList;
+    }
+
+    public  void setAccessTokenPrefix(String accessTokenPrefix) {
+        this.accessTokenPrefix = accessTokenPrefix;
+    }
+
+    public  void setRefreshTokenPrefix(String refreshTokenPrefix) {
+        this.refreshTokenPrefix = refreshTokenPrefix;
     }
 }

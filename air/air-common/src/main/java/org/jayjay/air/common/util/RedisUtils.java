@@ -1,5 +1,6 @@
 package org.jayjay.air.common.util;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -45,8 +46,8 @@ public class RedisUtils {
      *
      * @param key
      */
-    public static Object get(String key) {
-        return redisUtils.redisTemplate.opsForValue().get(key);
+    public static <T> T get(String key) {
+        return (T) redisUtils.redisTemplate.opsForValue().get(key);
     }
 
     /**
@@ -57,6 +58,15 @@ public class RedisUtils {
      */
     public static void set(String key, String value) {
         redisUtils.redisTemplate.opsForValue().set(key, value);
+    }
+    /**
+     * 设置值
+     *
+     * @param key
+     * @param value
+     */
+    public static void set(String key, Object value) {
+        redisUtils.redisTemplate.opsForValue().set(key, JSON.toJSONString(value));
     }
 
     /**

@@ -1,0 +1,1 @@
+[lf-1][SERVER_NAME_IS_UNDEFINED][2021-03-08 18:16:54.952][WARN ][http-nio-8080-exec-3][Logger.java:44] - No MyBatis mapper was found in '[org.jayjay.air.**.mapper]' package. Please check your configuration.

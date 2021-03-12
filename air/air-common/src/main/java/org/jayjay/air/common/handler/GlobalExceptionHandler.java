@@ -75,18 +75,18 @@ public class GlobalExceptionHandler  {
         return ResultModel.error(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
 
-//    /**
-//     * 捕捉其他所有异常
-//     * @param request
-//     * @param ex
-//     * @return
-//     */
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    @ExceptionHandler(Exception.class)
-//    public ResultModel globalException(HttpServletRequest request, Throwable ex) {
-//        ex.printStackTrace();
-//        return ResultModel.error(this.getStatus(request).value(), ex.toString() + ": " + ex.getMessage());
-//    }
+    /**
+     * 捕捉其他所有异常
+     * @param request
+     * @param ex
+     * @return
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ResultModel globalException(HttpServletRequest request, Throwable ex) {
+        ex.printStackTrace();
+        return ResultModel.error(this.getStatus(request).value(), ex.toString() + ": " + ex.getMessage());
+    }
 
     /**
      * 获取状态码

@@ -26,6 +26,6 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) {
-        ResponseUtils.responseJson(response, ResultModel.success(ResultCode.ERROR.getCode(), "登录失败", exception.getMessage()));
+        ResponseUtils.responseJson(response, ResultModel.error(ResultCode.ERROR.getCode(), "登录失败", exception.getMessage()));
     }
 }
