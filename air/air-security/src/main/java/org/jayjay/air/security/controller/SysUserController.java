@@ -11,6 +11,7 @@ import org.jayjay.air.security.service.SysPermissionService;
 import org.jayjay.air.security.service.SysRoleService;
 import org.jayjay.air.security.service.SysUserRoleService;
 import org.jayjay.air.security.service.SysUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -82,7 +83,9 @@ public class SysUserController {
         SysUserDetails sysUserDetails = (SysUserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         SysUser sysUser = sysUserService.getById(sysUserDetails.getId());
-        return ResultModel.success(sysUser);
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(sysUser,userDto);
+        return ResultModel.success(userDto);
     }
 
 
@@ -92,10 +95,11 @@ public class SysUserController {
      *
      * @return
      */
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasRole('admin')")
     @GetMapping(value = "/list")
     public ResultModel list() {
         List<SysUser> userList = sysUserService.list();
+
         return ResultModel.success(userList);
     }
 

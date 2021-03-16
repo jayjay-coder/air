@@ -237,7 +237,7 @@ public class JwtTokenUtils {
         if (StringUtils.isNotEmpty(tokenKey)) {
             // 去除JWT前缀
 //            token = token.substring(JwtConfig.tokenPrefix.length());
-            TokenDto tokenDto = RedisUtils.get(tokenKey);
+            TokenDto tokenDto = (TokenDto) RedisUtils.get(tokenKey,TokenDto.class);
             return Optional.ofNullable(tokenDto).orElse(null);
         }
         return null;
@@ -332,14 +332,13 @@ public class JwtTokenUtils {
     /**
      * 从Redis中获取过期时间
      *
-     * @param tokenKey tokenKey
+     * @param token token
      * @return 过期时间，字符串
      */
-    public static String getExpirationByToken(String tokenKey) {
-        if (StringUtils.isNotEmpty(tokenKey)) {
-            // 去除JWT前缀
-//            token = token.substring(JwtConfig.tokenPrefix.length());
-            TokenDto tokenDto = RedisUtils.get(tokenKey);
+    public static String getExpirationByToken(String token) {
+        if (StringUtils.isNotEmpty(token)) {
+            String accessTokenKey = getAccessTokenKey(token);
+            TokenDto tokenDto = (TokenDto) RedisUtils.get(accessTokenKey,TokenDto.class);
             return tokenDto != null ? tokenDto.getExpirationTime().format(df) : null;
         }
         return null;
@@ -349,14 +348,13 @@ public class JwtTokenUtils {
     /**
      * 从Redis中获取用户名
      *
-     * @param tokenKey tokenKey
+     * @param token token
      * @return
      */
-    public static String getUserNameByToken(String tokenKey) {
-        if (StringUtils.isNotEmpty(tokenKey)) {
-            // 去除JWT前缀
-//            token = token.substring(JwtConfig.tokenPrefix.length());
-            TokenDto tokenDto = RedisUtils.get(tokenKey);
+    public static String getUserNameByToken(String token) {
+        if (StringUtils.isNotEmpty(token)) {
+            String accessTokenKey = getAccessTokenKey(token);
+            TokenDto tokenDto = (TokenDto) RedisUtils.get(accessTokenKey,TokenDto.class);
             return tokenDto != null ? tokenDto.getUsername() : null;
         }
         return null;
@@ -365,14 +363,15 @@ public class JwtTokenUtils {
     /**
      * 从Redis中获取IP
      *
-     * @param tokenKey tokenKey
+     * @param token token
      * @return
      */
-    public static String getIpByToken(String tokenKey) {
-        if (StringUtils.isNotEmpty(tokenKey)) {
+    public static String getIpByToken(String token) {
+        if (StringUtils.isNotEmpty(token)) {
             // 去除JWT前缀
 //            token = token.substring(JwtConfig.tokenPrefix.length());
-            TokenDto tokenDto = RedisUtils.get(tokenKey);
+            String accessTokenKey = getAccessTokenKey(token);
+            TokenDto tokenDto = (TokenDto) RedisUtils.get(accessTokenKey,TokenDto.class);
             return tokenDto != null ? tokenDto.getIp() : null;
         }
         return null;

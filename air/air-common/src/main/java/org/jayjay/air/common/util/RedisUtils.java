@@ -46,8 +46,12 @@ public class RedisUtils {
      *
      * @param key
      */
-    public static <T> T get(String key) {
-        return (T) redisUtils.redisTemplate.opsForValue().get(key);
+    public static Object get(String key) {
+        return JSON.parse(redisUtils.redisTemplate.opsForValue().get(key));
+    }
+
+    public static Object get(String key,Class<?> cls) {
+        return JSON.parseObject(redisUtils.redisTemplate.opsForValue().get(key),cls);
     }
 
     /**

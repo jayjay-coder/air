@@ -1,8 +1,11 @@
 package org.jayjay.air.common.handler;
 
+import org.jayjay.air.common.constant.ResultCode;
 import org.jayjay.air.common.entity.ResultModel;
 import org.jayjay.air.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -73,6 +76,17 @@ public class GlobalExceptionHandler  {
     public ResultModel handle(NoHandlerFoundException e) {
         e.printStackTrace();
         return ResultModel.error(HttpStatus.NOT_FOUND.value(), e.getMessage());
+    }
+
+    /**
+     * 捕捉无权限异常
+     * @return
+     */
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResultModel accessDeniedException(AccessDeniedException e) {
+        e.printStackTrace();
+        return ResultModel.error(HttpStatus.FORBIDDEN.value(),  ResultCode.FORBIDDEN.getMsg(),e.getMessage());
     }
 
     /**
