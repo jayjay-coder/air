@@ -26,14 +26,14 @@ jwt:
   tokenPrefix: Bearer
   #refreshToken reids前缀
   accessTokenPrefix: 'access_token:'
-  # 过期时间，单位秒
-  expiration: 86400
+  # 过期时间，单位秒 30分钟
+  expiration: 1800
   #refreshToken reids前缀
   refreshTokenPrefix: 'refresh_token:'
-  # 刷新时间，单位天
-  refreshTime: 604800
+  # 刷新时间，单位秒 1天
+  refreshTime: 86400
   # 配置白名单（不需要认证）
-  whiteList: /**/login/**,/**/register/**,/static/**
+  whiteList: /**/login/**,/**/register/**,/static/**,/token/refresh
 
 # Mybatis-plus配置
 mybatis-plus:

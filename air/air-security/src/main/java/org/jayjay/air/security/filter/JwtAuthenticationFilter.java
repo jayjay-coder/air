@@ -57,11 +57,11 @@ public class JwtAuthenticationFilter  extends BasicAuthenticationFilter {
         if (token != null && token.startsWith(JwtConfig.tokenPrefix) && !isWhiteList(requestURL)) {
             String accessTokenKey = JwtTokenUtils.getAccessTokenKey(token);
             String refreshTokenKey = JwtTokenUtils.getRefreshTokenKey(token);
-            // 是否过期
-            if (JwtTokenUtils.isExpiration(JwtTokenUtils.getExpirationByToken(token))) {
-                ResponseUtils.responseJson(response, ResultModel.error(505, "Token已失效", "Token已进入黑名单"));
-                return;
-            }
+//            // 是否过期
+//            if (JwtTokenUtils.isExpiration(JwtTokenUtils.getExpirationByToken(token))) {
+//                ResponseUtils.responseJson(response, ResultModel.error(505, "Token已失效", "Token已进入黑名单"));
+//                return;
+//            }
 
             // 是否存在于Redis中
             if (JwtTokenUtils.hasToken(accessTokenKey)) {
@@ -74,37 +74,39 @@ public class JwtAuthenticationFilter  extends BasicAuthenticationFilter {
 //                    // 删除token
 //                    JwtTokenUtils.addBlackList(token);
                     JwtTokenUtils.deleteRedisToken(accessTokenKey);
+                    ResponseUtils.responseJson(response, ResultModel.error(505, "Token已过期"));
 
-                    if(JwtTokenUtils.hasToken(refreshTokenKey)) {
-                        // 是否在刷新期内
-                        String refreshExpiration = JwtTokenUtils.getExpirationByToken(refreshTokenKey);
-                        if (JwtTokenUtils.isExpiration(refreshExpiration)) {
-                            // 刷新Token，重新存入请求头
-                            String newToke = JwtTokenUtils.refreshAccessToken(token);
-
-                            // 删除旧的Token，并保存新的Token
-                            JwtTokenUtils.deleteRedisToken(accessTokenKey);
-                            JwtTokenUtils.setAccessTokenInfo(newToke, username, ip);
-                            response.setHeader(JwtConfig.tokenHeader, newToke);
-
-                            log.info("用户{}的Token已过期，但为超过刷新时间，已刷新", username);
-
-                            token = newToke;
-                        } else {
-
-                            log.info("用户{}的Token已过期且超过刷新时间，不予刷新", username);
-
-                            // 加入黑名单
-//                            JwtTokenUtils.addBlackList(token);
-                            JwtTokenUtils.deleteRedisToken(accessTokenKey);
-                            JwtTokenUtils.deleteRedisToken(refreshTokenKey);
-                            ResponseUtils.responseJson(response, ResultModel.error(505, "Token已过期", "已超过刷新有效期"));
-                            return;
-                        }
-                    }
+                    //自动刷新token
+//                    if(JwtTokenUtils.hasToken(refreshTokenKey)) {
+//                        // 是否在刷新期内
+//                        String refreshExpiration = JwtTokenUtils.getExpirationByToken(refreshTokenKey);
+//                        if (JwtTokenUtils.isExpiration(refreshExpiration)) {
+//                            // 刷新Token，重新存入请求头
+//                            String newToke = JwtTokenUtils.refreshAccessToken(token);
+//
+//                            // 删除旧的Token，并保存新的Token
+//                            JwtTokenUtils.deleteRedisToken(accessTokenKey);
+//                            JwtTokenUtils.setAccessTokenInfo(newToke, username, ip);
+//                            response.setHeader(JwtConfig.tokenHeader, newToke);
+//
+//                            log.info("用户{}的Token已过期，但为超过刷新时间，已刷新", username);
+//
+//                            token = newToke;
+//                        } else {
+//
+//                            log.info("用户{}的Token已过期且超过刷新时间，不予刷新", username);
+//
+//                            // 加入黑名单
+////                            JwtTokenUtils.addBlackList(token);
+//                            JwtTokenUtils.deleteRedisToken(accessTokenKey);
+//                            JwtTokenUtils.deleteRedisToken(refreshTokenKey);
+//                            ResponseUtils.responseJson(response, ResultModel.error(505, "Token已过期", "已超过刷新有效期"));
+//                            return;
+//                        }
+//                    }
                 }
 
-                SysUserDetails sysUserDetails = JwtTokenUtils.parseAccessToken(token);
+                SysUserDetails sysUserDetails = JwtTokenUtils.parseToken(token);
 
                 if (sysUserDetails != null) {
                     // 校验IP

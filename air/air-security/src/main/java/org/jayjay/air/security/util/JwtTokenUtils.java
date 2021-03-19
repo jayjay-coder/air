@@ -3,6 +3,7 @@ package org.jayjay.air.security.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
@@ -56,12 +57,13 @@ public class JwtTokenUtils {
      * @return
      */
     public static String createAccessToken(SysUserDetails sysUserDetails) {
+        Date date = new Date();
         String token = Jwts.builder()// 设置JWT
                 .setId(sysUserDetails.getId()) // 用户Id
                 .setSubject(sysUserDetails.getUsername()) // 主题
-                .setIssuedAt(new Date()) // 签发时间
+                .setIssuedAt(date) // 签发时间
                 .setIssuer("JayJay") // 签发者
-                .setExpiration(new Date(System.currentTimeMillis() + JwtConfig.expiration)) // 过期时间
+                .setExpiration(new Date(date.getTime() + JwtConfig.expiration)) // 过期时间
                 .signWith(SignatureAlgorithm.HS512, JwtConfig.secret) // 签名算法、密钥
                 .claim("authorities", JSON.toJSONString(sysUserDetails.getAuthorities()))// 自定义其他属性，如用户组织机构ID，用户所拥有的角色，用户权限信息等
                 .claim("ip", sysUserDetails.getIp()).compact();
@@ -75,14 +77,15 @@ public class JwtTokenUtils {
      * @return
      */
     public static String createRefreshToken(SysUserDetails sysUserDetails) {
+        Date date = new Date();
         String token = Jwts.builder()// 设置JWT
                 .setId(sysUserDetails.getId()) // 用户Id
                 .setSubject(sysUserDetails.getUsername()) // 主题
-                .setIssuedAt(new Date()) // 签发时间
+                .setIssuedAt(date) // 签发时间
                 .setIssuer("JayJay") // 签发者
-                .setExpiration(new Date(System.currentTimeMillis() + JwtConfig.refreshTime * 24 * 60 * 60)) // 过期时间
+                .setExpiration(new Date(date.getTime() + JwtConfig.refreshTime)) // 过期时间
                 .signWith(SignatureAlgorithm.HS512, JwtConfig.secret) // 签名算法、密钥
-                .claim("authorities", JSON.toJSONString(sysUserDetails.getAuthorities()))// 自定义其他属性，如用户组织机构ID，用户所拥有的角色，用户权限信息等
+//                .claim("authorities", JSON.toJSONString(sysUserDetails.getAuthorities()))// 自定义其他属性，如用户组织机构ID，用户所拥有的角色，用户权限信息等
                 .claim("ip", sysUserDetails.getIp()).compact();
         return JwtConfig.tokenPrefix + token;
     }
@@ -108,40 +111,21 @@ public class JwtTokenUtils {
      * @param token Token信息
      * @return
      */
-    public static SysUserDetails parseAccessToken(String token) {
+    public static SysUserDetails parseToken(String token) {
         SysUserDetails sysUserDetails = null;
+        Claims claims = null;
         if (StringUtils.isNotEmpty(token)) {
             try {
                 // 去除JWT前缀
                 token = token.substring(JwtConfig.tokenPrefix.length());
 
                 // 解析Token
-                Claims claims = Jwts.parser().setSigningKey(JwtConfig.secret).parseClaimsJws(token).getBody();
+                claims = Jwts.parser().setSigningKey(JwtConfig.secret).parseClaimsJws(token).getBody();
+                sysUserDetails = getSysUserDetails(claims);
 
-                // 获取用户信息
-                sysUserDetails = new SysUserDetails();
-                sysUserDetails.setId(claims.getId());
-                sysUserDetails.setUserName(claims.getSubject());
-
-                // 获取角色
-                Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-                String authority = claims.get("authorities").toString();
-                if (StringUtils.isNotEmpty(authority)) {
-                    List<Map<String, String>> authorityList = JSON.parseObject(authority,
-                            new TypeReference<List<Map<String, String>>>() {
-                            });
-                    for (Map<String, String> role : authorityList) {
-                        if (!role.isEmpty()) {
-                            authorities.add(new SimpleGrantedAuthority(role.get("authority")));
-                        }
-                    }
-                }
-
-                sysUserDetails.setAuthorities(authorities);
-
-                // 获取IP
-                String ip = claims.get("ip").toString();
-                sysUserDetails.setIp(ip);
+            } catch (ExpiredJwtException e) {
+                claims = e.getClaims();
+                sysUserDetails = getSysUserDetails(claims);
             } catch (Exception e) {
                 log.error("解析Token异常：" + e);
             }
@@ -157,12 +141,41 @@ public class JwtTokenUtils {
      * @return
      */
     public static String getAccessTokenKey(String token) {
-        SysUserDetails sysUserDetails = parseAccessToken(token);
+        SysUserDetails sysUserDetails = parseToken(token);
         if (sysUserDetails == null) {
             return null;
         }
         String tokenKey = JwtConfig.accessTokenPrefix + sysUserDetails.getUsername() + "_" + sysUserDetails.getIp();
         return tokenKey;
+    }
+
+    private static SysUserDetails getSysUserDetails(Claims claims) {
+        // 获取用户信息
+        SysUserDetails sysUserDetails = new SysUserDetails();
+        sysUserDetails.setId(claims.getId());
+        sysUserDetails.setUserName(claims.getSubject());
+
+        // 获取角色
+        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        Object authoritieObj = claims.get("authorities");
+        String authority = Objects.isNull(authoritieObj) ? null : claims.get("authorities").toString();
+        if (StringUtils.isNotEmpty(authority)) {
+            List<Map<String, String>> authorityList = JSON.parseObject(authority,
+                    new TypeReference<List<Map<String, String>>>() {
+                    });
+            for (Map<String, String> role : authorityList) {
+                if (!role.isEmpty()) {
+                    authorities.add(new SimpleGrantedAuthority(role.get("authority")));
+                }
+            }
+        }
+
+        sysUserDetails.setAuthorities(authorities);
+
+        // 获取IP
+        String ip = claims.get("ip").toString();
+        sysUserDetails.setIp(ip);
+        return sysUserDetails;
     }
 
     /**
@@ -172,7 +185,7 @@ public class JwtTokenUtils {
      * @return
      */
     public static String getRefreshTokenKey(String token) {
-        SysUserDetails sysUserDetails = parseAccessToken(token);
+        SysUserDetails sysUserDetails = parseToken(token);
         if (sysUserDetails == null) {
             return null;
         }
@@ -202,8 +215,8 @@ public class JwtTokenUtils {
             tokenDto.setUsername(username);
             tokenDto.setIp(ip);
             tokenDto.setCreateTime(localDateTime);
-            tokenDto.setExpirationTime(localDateTime.plusMinutes(expirationTime));
-            RedisUtils.set(tokenKey,tokenDto);
+            tokenDto.setExpirationTime(localDateTime.plusSeconds(expirationTime / 1000));
+            RedisUtils.set(tokenKey, tokenDto);
 
         }
     }
@@ -223,21 +236,22 @@ public class JwtTokenUtils {
             tokenDto.setUsername(username);
             tokenDto.setIp(ip);
             tokenDto.setCreateTime(localDateTime);
-            tokenDto.setExpirationTime(localDateTime.plusMinutes(expirationTime));
-            RedisUtils.set(tokenKey,tokenDto);
+            tokenDto.setExpirationTime(localDateTime.plusSeconds(expirationTime / 1000));
+            RedisUtils.set(tokenKey, tokenDto);
         }
     }
 
     /**
      * 获取tokenDto
+     *
      * @param tokenKey
      * @return
      */
-    public static TokenDto getTokenDto(String tokenKey){
+    public static TokenDto getTokenDto(String tokenKey) {
         if (StringUtils.isNotEmpty(tokenKey)) {
             // 去除JWT前缀
 //            token = token.substring(JwtConfig.tokenPrefix.length());
-            TokenDto tokenDto = (TokenDto) RedisUtils.get(tokenKey,TokenDto.class);
+            TokenDto tokenDto = (TokenDto) RedisUtils.get(tokenKey, TokenDto.class);
             return Optional.ofNullable(tokenDto).orElse(null);
         }
         return null;
@@ -338,7 +352,7 @@ public class JwtTokenUtils {
     public static String getExpirationByToken(String token) {
         if (StringUtils.isNotEmpty(token)) {
             String accessTokenKey = getAccessTokenKey(token);
-            TokenDto tokenDto = (TokenDto) RedisUtils.get(accessTokenKey,TokenDto.class);
+            TokenDto tokenDto = (TokenDto) RedisUtils.get(accessTokenKey, TokenDto.class);
             return tokenDto != null ? tokenDto.getExpirationTime().format(df) : null;
         }
         return null;
@@ -354,7 +368,7 @@ public class JwtTokenUtils {
     public static String getUserNameByToken(String token) {
         if (StringUtils.isNotEmpty(token)) {
             String accessTokenKey = getAccessTokenKey(token);
-            TokenDto tokenDto = (TokenDto) RedisUtils.get(accessTokenKey,TokenDto.class);
+            TokenDto tokenDto = (TokenDto) RedisUtils.get(accessTokenKey, TokenDto.class);
             return tokenDto != null ? tokenDto.getUsername() : null;
         }
         return null;
@@ -371,7 +385,7 @@ public class JwtTokenUtils {
             // 去除JWT前缀
 //            token = token.substring(JwtConfig.tokenPrefix.length());
             String accessTokenKey = getAccessTokenKey(token);
-            TokenDto tokenDto = (TokenDto) RedisUtils.get(accessTokenKey,TokenDto.class);
+            TokenDto tokenDto = (TokenDto) RedisUtils.get(accessTokenKey, TokenDto.class);
             return tokenDto != null ? tokenDto.getIp() : null;
         }
         return null;
